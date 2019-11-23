@@ -2,7 +2,19 @@
 	"name": "es-get-iterator",
 	"version": "0.0.0",
 	"description": "Get an iterator for any JS language value. Works robustly across all environments, all versions.",
-	"main": "index.js",
+	"main": "index",
+	"exports": {
+		".": [
+			{
+				"browser": "./index.js",
+				"default": "./node.js"
+			},
+			"./node.js"
+		],
+		"./package": "./package.json",
+		"./package.json": "./package.json"
+	},
+	"type": "commonjs",
 	"scripts": {
 		"lint": "eslint .",
 		"pretest": "npm run lint",
@@ -36,7 +48,6 @@
 		"eslint": "^6.7.1",
 		"for-each": "^0.3.3",
 		"has-bigints": "^1.0.0",
-		"has-symbols": "^1.0.1",
 		"nyc": "^10.3.2",
 		"object-inspect": "^1.7.0",
 		"tape": "^4.11.0"
@@ -48,5 +59,14 @@
 		"ignore": [
 			"nyc"
 		]
+	},
+	"dependencies": {
+		"es-abstract": "^1.16.2",
+		"has-symbols": "^1.0.1",
+		"is-arguments": "^1.0.4",
+		"is-map": "^2.0.0",
+		"is-set": "^2.0.0",
+		"is-string": "^1.0.4",
+		"isarray": "^2.0.5"
 	}
 }

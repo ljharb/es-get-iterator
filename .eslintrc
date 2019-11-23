@@ -4,6 +4,8 @@
 	"extends": "@ljharb",
 
 	"rules": {
+		"consistent-return": 1,
+		"eqeqeq": [2, "always", { "null": "ignore" }],
 		"func-name-matching": 0,
 		"id-length": 0,
 		"max-lines-per-function": 0,
@@ -17,7 +19,6 @@
 		{
 			"files": "test/**",
 			"rules": {
-				"eqeqeq": [2, "always", { "null": "ignore" }],
 				"max-params": [2, 3],
 				"no-new-func": 1,
 			},
