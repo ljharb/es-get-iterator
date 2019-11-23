@@ -4,9 +4,11 @@
 	"description": "Get an iterator for any JS language value. Works robustly across all environments, all versions.",
 	"main": "index.js",
 	"scripts": {
-		"pretest": "npm run lint",
 		"lint": "eslint .",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"pretest": "npm run lint",
+		"tests-only": "nyc node test/${TEST_VARIANT-}",
+		"test": "npm run tests-only",
+		"posttest": "npx aud --production"
 	},
 	"repository": {
 		"type": "git",
@@ -28,6 +30,23 @@
 	"homepage": "https://github.com/ljharb/es-get-iterator#readme",
 	"devDependencies": {
 		"@ljharb/eslint-config": "^15.0.2",
-		"eslint": "^6.7.1"
+		"core-js": "^2.6.10 || ^3.4.2",
+		"es5-shim": "^4.5.13",
+		"es6-shim": "^0.35.5",
+		"eslint": "^6.7.1",
+		"for-each": "^0.3.3",
+		"has-bigints": "^1.0.0",
+		"has-symbols": "^1.0.1",
+		"nyc": "^10.3.2",
+		"object-inspect": "^1.7.0",
+		"tape": "^4.11.0"
+	},
+	"testling": {
+		"files": "./test/browser.js"
+	},
+	"greenkeeper": {
+		"ignore": [
+			"nyc"
+		]
 	}
 }
