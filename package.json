@@ -16,6 +16,7 @@
 	},
 	"type": "commonjs",
 	"scripts": {
+		"prepublish": "safe-publish-latest",
 		"lint": "eslint .",
 		"pretest": "npm run lint",
 		"tests-only": "nyc node test/${TEST_VARIANT-}",
@@ -50,6 +51,7 @@
 		"has-bigints": "^1.0.0",
 		"nyc": "^10.3.2",
 		"object-inspect": "^1.7.0",
+		"safe-publish-latest": "^1.1.4",
 		"tape": "^4.11.0"
 	},
 	"testling": {
