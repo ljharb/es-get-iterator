@@ -21,7 +21,9 @@
 		"pretest": "npm run lint",
 		"tests-only": "nyc node test/${TEST_VARIANT-}",
 		"test": "npm run tests-only",
-		"posttest": "npx aud --production"
+		"posttest": "npx aud --production",
+		"version": "auto-changelog && git add CHANGELOG.md",
+		"postversion": "auto-changelog && git add CHANGELOG.md && git commit --no-edit --amend && git tag -f \"v$(node -e \"console.log(require('./package.json').version)\")\""
 	},
 	"repository": {
 		"type": "git",
@@ -43,6 +45,7 @@
 	"homepage": "https://github.com/ljharb/es-get-iterator#readme",
 	"devDependencies": {
 		"@ljharb/eslint-config": "^15.0.2",
+		"auto-changelog": "^1.16.2",
 		"core-js": "^2.6.10 || ^3.4.2",
 		"es5-shim": "^4.5.13",
 		"es6-shim": "^0.35.5",
@@ -70,5 +73,12 @@
 		"is-set": "^2.0.0",
 		"is-string": "^1.0.4",
 		"isarray": "^2.0.5"
+	},
+	"auto-changelog": {
+		"output": "CHANGELOG.md",
+		"template": "keepachangelog",
+		"unreleased": false,
+		"commitLimit": false,
+		"backfillLimit": false
 	}
 }
