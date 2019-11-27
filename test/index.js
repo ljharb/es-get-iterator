@@ -3,7 +3,8 @@
 var test = require('tape');
 var Test = require('tape/lib/test');
 var inspect = require('object-inspect');
-var hasSymbols = require('has-symbols')();
+// eslint-disable-next-line global-require
+var hasSymbols = require('has-symbols')() || require('has-symbols/shams')();
 var hasBigInts = require('has-bigints')();
 var forEach = require('for-each');
 
@@ -13,8 +14,13 @@ Test.prototype.iterate = function (value, expected, message) {
 	var i = 0;
 	this.test(message, function (t) {
 		var iterator = getIterator(value);
+		if (!iterator) {
+			t.fail(inspect(value) + ' is not iterable');
+			return t.end();
+		}
 		if (typeof iterator.next !== 'function') {
-			return t.fail('iterator does not have a next function, got ' + inspect(iterator));
+			t.fail('iterator does not have a next function, got ' + inspect(iterator));
+			return t.end();
 		}
 		var result;
 		while ((result = iterator.next()) && !result.done) {
@@ -161,13 +167,6 @@ var runTests = function runTests(t) {
 		st.end();
 	});
 };
-
-// lacks symbols
-// has native Symbol.iterator
-// core-js 2
-// core-js 3
-// es5-shim + es6-shim
-// airbnb-browser-shims (maybe)
 
 test((process.env.TEST_VARIANT || 'standard') + ': getIterator tests', function (t) {
 	runTests(t);

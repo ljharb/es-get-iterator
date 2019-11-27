@@ -122,10 +122,10 @@ if (require('has-symbols')() || require('has-symbols/shams')()) {
 		var isMap = require('is-map');
 		var isSet = require('is-set');
 
+		// Firefox >= 27, IE 11, Safari 6.2 - 9, Edge 11, es6-shim in older envs, all have forEach
+		var $mapForEach = callBound('Map.prototype.forEach', true);
+		var $setForEach = callBound('Set.prototype.forEach', true);
 		if (typeof process === 'undefined' || !process.versions || !process.versions.node) { // "if is not node"
-			// Firefox >= 27, IE 11, Safari 6.2 - 9, Edge 11, all have forEach
-			var $mapForEach = callBound('Map.prototype.forEach', true);
-			var $setForEach = callBound('Set.prototype.forEach', true);
 
 			// Firefox 17 - 26 has `.iterator()`, whose iterator `.next()` either
 			// returns a value, or throws a StopIteration object. These browsers
@@ -151,12 +151,12 @@ if (require('has-symbols')() || require('has-symbols/shams')()) {
 					}
 				};
 			};
-
-			// Firefox 27-35, and some older es6-shim versions, use a string "@@iterator" property
-			// this returns a proper iterator object, so we should use it instead of forEach.
-			var $mapAtAtIterator = callBound('Map.prototype.@@iterator', true);
-			var $setAtAtIterator = callBound('Set.prototype.@@iterator', true);
 		}
+		// Firefox 27-35, and some older es6-shim versions, use a string "@@iterator" property
+		// this returns a proper iterator object, so we should use it instead of forEach.
+		// newer es6-shim versions use a string "_es6-shim iterator_" property.
+		var $mapAtAtIterator = callBound('Map.prototype.@@iterator', true) || callBound('Map.prototype._es6-shim iterator_', true);
+		var $setAtAtIterator = callBound('Set.prototype.@@iterator', true) || callBound('Set.prototype._es6-shim iterator_', true);
 
 		var getCollectionIterator = function getCollectionIterator(iterable) {
 			if (isMap(iterable)) {
