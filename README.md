@@ -21,7 +21,27 @@ This library attempts to provide an abstraction over all that complexity!
 
 In node v13+, `exports` is used to provide a lean implementation that lacks all the complexity described above, in combination with the `browser` field so that bundlers will pick up the proper implementation.
 
+## Targeting browsers with Symbol support
+
 If you are targeting browsers that definitely all have Symbol support, then you can configure your bundler to replace `require('has-symbols')()` with a literal `true`, which should allow dead code elimination to reduce the size of the bundled code.
+
+### With `@rollup/plugin-replace`
+
+```js
+// rollup.config.js
+
+import replace from '@rollup/plugin-replace';
+
+export default {
+	...
+	plugins: [
+		replace({
+			"require('has-symbols')()": 'true',
+			delimiters: ['', '']
+		})
+	]
+};
+```
 
 ## Example
 
