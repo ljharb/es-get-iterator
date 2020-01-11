@@ -69,12 +69,12 @@
 		]
 	},
 	"dependencies": {
-		"es-abstract": "^1.17.0-next.1",
+		"es-abstract": "^1.17.0",
 		"has-symbols": "^1.0.1",
 		"is-arguments": "^1.0.4",
-		"is-map": "^2.0.0",
-		"is-set": "^2.0.0",
-		"is-string": "^1.0.4",
+		"is-map": "^2.0.1",
+		"is-set": "^2.0.1",
+		"is-string": "^1.0.5",
 		"isarray": "^2.0.5"
 	},
 	"auto-changelog": {
