@@ -72,6 +72,7 @@ var runTests = function runTests(t) {
 		st.iterate(Object('foo'), ['f', 'o', 'o'], inspect(Object('foo')) + ' yields three chars');
 		st.iterate('a💩z', ['a', '💩', 'z'], '"a💩z" yields three code points');
 		st.iterate(Object('a💩z'), ['a', '💩', 'z'], inspect(Object('a💩z')) + ' yields three code points');
+		st.iterate('\ud83dX', ['\ud83d', 'X'], inspect('\ud83dX') + ' (lone surrogate followed by "not a lone surrogate ending") yields one code point');
 
 		st.fakeIterator('abc');
 
