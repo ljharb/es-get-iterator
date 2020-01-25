@@ -11,6 +11,8 @@ import:
 install:
  - 'npm install'
  - 'if [ "${CORE_JS-}" ]; then npm install --no-save core-js@${CORE_JS}; fi'
+script:
+ - 'if [ "${TRAVIS_NODE_VERSION}" = "13.2" ] || [ "${TRAVIS_NODE_VERSION}" = "13.7" ]; then npm run tests-esm; fi'
 env:
  - TEST=true TEST_VARIANT=browser
  - TEST=true TEST_VARIANT=node
