@@ -69,7 +69,7 @@
 		]
 	},
 	"dependencies": {
-		"es-abstract": "^1.17.0",
+		"es-abstract": "^1.17.4",
 		"has-symbols": "^1.0.1",
 		"is-arguments": "^1.0.4",
 		"is-map": "^2.0.1",
