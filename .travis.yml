@@ -14,18 +14,26 @@ install:
 script:
  - 'if [ "${TRAVIS_NODE_VERSION}" = "13.2" ] || [ "${TRAVIS_NODE_VERSION}" = "13.7" ]; then npm run tests-esm; fi'
 env:
- - TEST=true TEST_VARIANT=browser
- - TEST=true TEST_VARIANT=node
  - TEST=true TEST_VARIANT=es6-shim
  - TEST=true TEST_VARIANT=core-js CORE_JS=2
  - TEST=true TEST_VARIANT=core-js CORE_JS=3
 matrix:
-  exclude:
-    - node_js: '0.10' # no symbols
+  include:
+    - node_js: '13.7'
       env: TEST=true TEST_VARIANT=node
-    - node_js: '0.8' # no symbols
+    - node_js: '13.6'
       env: TEST=true TEST_VARIANT=node
-    - node_js: '0.11'
-      env: TEST=true ALLOW_FAILURE=true
+    - node_js: '13.5'
+      env: TEST=true TEST_VARIANT=node
+    - node_js: '13.4'
+      env: TEST=true TEST_VARIANT=node
+    - node_js: '13.3'
+      env: TEST=true TEST_VARIANT=node
+    - node_js: '13.2'
+      env: TEST=true TEST_VARIANT=node
+    - node_js: '13.1'
+      env: TEST=true TEST_VARIANT=node
+    - node_js: '13.0'
+      env: TEST=true TEST_VARIANT=node
 after_success:
  - 'if [ -f coverage/*.json ]; then bash <(curl -s https://codecov.io/bash) -f coverage/*.json; fi'
