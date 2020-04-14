@@ -50,9 +50,10 @@
 	"homepage": "https://github.com/ljharb/es-get-iterator#readme",
 	"devDependencies": {
 		"@ljharb/eslint-config": "^16.0.0",
-		"auto-changelog": "^1.16.2",
+		"aud": "^1.1.0",
+		"auto-changelog": "^2.0.0",
 		"core-js": "^2.6.10 || ^3.4.2",
-		"es5-shim": "^4.5.13",
+		"es5-shim": "^4.5.14",
 		"es6-shim": "^0.35.5",
 		"eslint": "^6.8.0",
 		"for-each": "^0.3.3",
@@ -60,7 +61,7 @@
 		"nyc": "^10.3.2",
 		"object-inspect": "^1.7.0",
 		"safe-publish-latest": "^1.1.4",
-		"tape": "^5.0.0-next.3"
+		"tape": "^5.0.0-next.5"
 	},
 	"testling": {
 		"files": "./test/index.js"
