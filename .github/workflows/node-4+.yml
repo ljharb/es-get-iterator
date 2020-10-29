@@ -13,7 +13,7 @@ jobs:
         with:
           preset: '>=4'
           type: 'majors'
-          envs: "[{ \"TEST_VARIANT\": \"es6-shim\" }, { \"TEST_VARIANT\": \"core-js\", \"CORE_JS\": 2 }, { \"TEST_VARIANT\": \"core-js\", \"CORE_JS\": 3 }]"
+          envs: "[{ \"TEST_VARIANT\": \"es6-shim\" }, { \"TEST_VARIANT\": \"es6-shim\", \"PRELOAD_GET_ITERATOR\": true }, { \"TEST_VARIANT\": \"core-js\", \"CORE_JS\": 2 }, { \"TEST_VARIANT\": \"core-js\", \"CORE_JS\": 3 }]"
 
   latest:
     needs: [matrix]

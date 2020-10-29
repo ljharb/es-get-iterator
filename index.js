@@ -80,7 +80,7 @@ if (require('has-symbols')() || require('has-symbols/shams')()) {
 		};
 	};
 
-	var getNonCollectionIterator = function getNonCollectionIterator(iterable) {
+	var getNonCollectionIterator = function getNonCollectionIterator(iterable, noPrimordialCollections) {
 		if (isArray(iterable) || isArguments(iterable)) {
 			return getArrayIterator(iterable);
 		}
@@ -98,6 +98,11 @@ if (require('has-symbols')() || require('has-symbols/shams')()) {
 				}
 			};
 		}
+
+		// es6-shim and es-shims' es-map use a string "_es6-shim iterator_" property on different iterables, such as MapIterator.
+		if (noPrimordialCollections && typeof iterable['_es6-shim iterator_'] !== 'undefined') {
+			return iterable['_es6-shim iterator_']();
+		}
 	};
 
 	if (!$Map && !$Set) {
@@ -109,7 +114,11 @@ if (require('has-symbols')() || require('has-symbols/shams')()) {
 		// - IE < 11
 		// - Edge < 11
 
-		module.exports = getNonCollectionIterator;
+		module.exports = function getIterator(iterable) {
+			if (iterable != null) {
+				return getNonCollectionIterator(iterable, true);
+			}
+		};
 	} else {
 		// either Map or Set are available, but Symbol is not
 		// - es6-shim on an ES5 browser
