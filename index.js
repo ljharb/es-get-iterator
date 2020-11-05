@@ -35,10 +35,10 @@ if (require('has-symbols')() || require('has-symbols/shams')()) {
 	// Symbol is not available, native or shammed
 	var isArray = require('isarray');
 	var isString = require('is-string');
-	var GetIntrinsic = require('es-abstract/GetIntrinsic');
+	var GetIntrinsic = require('get-intrinsic');
 	var $Map = GetIntrinsic('%Map%', true);
 	var $Set = GetIntrinsic('%Set%', true);
-	var callBound = require('es-abstract/helpers/callBound');
+	var callBound = require('call-bind/callBound');
 	var $arrayPush = callBound('Array.prototype.push');
 	var $charCodeAt = callBound('String.prototype.charCodeAt');
 	var $stringSlice = callBound('String.prototype.slice');
