@@ -1,6 +1,6 @@
 {
 	"name": "es-get-iterator",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"description": "Get an iterator for any JS language value. Works robustly across all environments, all versions.",
 	"main": "index",
 	"exports": {
