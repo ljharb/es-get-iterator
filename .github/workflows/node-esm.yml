@@ -40,12 +40,15 @@ jobs:
           - node-version: '13.0'
             envs:
               TEST_VARIANT: node
-          - node-version: '12.16'
+          - node-version: '12.17'
+            envs:
+              TEST_VARIANT: node.mjs
+          - node-version: '12.17'
             envs:
               TEST_VARIANT: node
           - node-version: '12.16'
             envs:
-              TEST_VARIANT: node.mjs
+              TEST_VARIANT: node
 
     steps:
       - uses: actions/checkout@v2
