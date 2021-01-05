@@ -74,11 +74,11 @@
 	},
 	"dependencies": {
 		"call-bind": "^1.0.0",
-		"get-intrinsic": "^1.0.1",
+		"get-intrinsic": "^1.0.2",
 		"has-symbols": "^1.0.1",
-		"is-arguments": "^1.0.4",
-		"is-map": "^2.0.1",
-		"is-set": "^2.0.1",
+		"is-arguments": "^1.1.0",
+		"is-map": "^2.0.2",
+		"is-set": "^2.0.2",
 		"is-string": "^1.0.5",
 		"isarray": "^2.0.5"
 	},
