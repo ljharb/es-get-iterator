@@ -73,8 +73,8 @@
 		]
 	},
 	"dependencies": {
-		"call-bind": "^1.0.0",
-		"get-intrinsic": "^1.0.2",
+		"call-bind": "^1.0.2",
+		"get-intrinsic": "^1.1.0",
 		"has-symbols": "^1.0.1",
 		"is-arguments": "^1.1.0",
 		"is-map": "^2.0.2",
