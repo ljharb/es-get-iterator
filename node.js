@@ -10,3 +10,5 @@ module.exports = function getIterator(iterable) {
 		return iterable[$iterator]();
 	}
 };
+
+module.exports['default'] = module.exports;

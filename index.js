@@ -205,3 +205,5 @@ if (require('has-symbols')() || require('has-symbols/shams')()) {
 		};
 	}
 }
+
+module.exports['default'] = module.exports;
