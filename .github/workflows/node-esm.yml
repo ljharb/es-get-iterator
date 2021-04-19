@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix:
         include:
           - node-version: '13.7'
@@ -52,11 +53,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: ljharb/actions/node/run@main
-        name: 'npm install && npm run tests-only'
+      - uses: ljharb/actions/node/install@main
+        name: 'nvm install ${{ matrix.node-version }} && npm install'
         with:
           node-version: ${{ matrix.node-version }}
-          shell-command: 'TEST_VARIANT=${{ matrix.envs.TEST_VARIANT }} npm run tests-only'
+      - run: npm run tests-only
+        env:
+          TEST_VARIANT: ${{ matrix.envs.TEST_VARIANT }}
+      - uses: codecov/codecov-action@v1
   
   node:
     name: 'node, notable ESM minors'
