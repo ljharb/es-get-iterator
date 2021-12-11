@@ -3,68 +3,7 @@ name: 'Tests: node.js (ESM)'
 on: [pull_request, push]
 
 jobs:
-  latest:
-    name: 'notable ESM minors'
-    runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - node-version: '13.7'
-            envs:
-              TEST_VARIANT: node
-          - node-version: '13.7'
-            envs:
-              TEST_VARIANT: node.mjs
-          - node-version: '13.6'
-            envs:
-              TEST_VARIANT: node
-          - node-version: '13.5'
-            envs:
-              TEST_VARIANT: node
-          - node-version: '13.4'
-            envs:
-              TEST_VARIANT: node
-          - node-version: '13.3'
-            envs:
-              TEST_VARIANT: node
-          - node-version: '13.2'
-            envs:
-              TEST_VARIANT: node
-          - node-version: '13.2'
-            env:
-              TEST_VARIANT: node.mjs
-          - node-version: '13.1'
-            envs:
-              TEST_VARIANT: node
-          - node-version: '13.0'
-            envs:
-              TEST_VARIANT: node
-          - node-version: '12.17'
-            envs:
-              TEST_VARIANT: node.mjs
-          - node-version: '12.17'
-            envs:
-              TEST_VARIANT: node
-          - node-version: '12.16'
-            envs:
-              TEST_VARIANT: node
-
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ljharb/actions/node/install@main
-        name: 'nvm install ${{ matrix.node-version }} && npm install'
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: npm run tests-only
-        env:
-          TEST_VARIANT: ${{ matrix.envs.TEST_VARIANT }}
-      - uses: codecov/codecov-action@v2
-  
-  node:
-    name: 'node, notable ESM minors'
-    needs: [latest]
-    runs-on: ubuntu-latest
-    steps:
-      - run: 'echo tests completed'
+  tests:
+    uses: ljharb/actions/.github/workflows/node-esm.yml@main
+    with:
+      command: npm run tests-esm
