@@ -1,7 +1,6 @@
 'use strict';
 
 var test = require('tape');
-var Test = require('tape/lib/test');
 var inspect = require('object-inspect');
 // eslint-disable-next-line global-require
 var hasSymbols = require('has-symbols')() || require('has-symbols/shams')();
@@ -10,7 +9,8 @@ var forEach = require('for-each');
 
 var getIterator = process.env.TEST_VARIANT === 'node' ? require('../node') : require('../');
 
-Test.prototype.iterate = function (value, expected, message) {
+var iterate = function iterate(value, expected, message) {
+	/* eslint no-invalid-this: 0 */
 	var i = 0;
 	this.test(message, function (t) {
 		var iterator = getIterator(value);
@@ -35,18 +35,20 @@ Test.prototype.iterate = function (value, expected, message) {
 	});
 };
 
-Test.prototype.noIterate = function (value) {
+var noIterate = function noIteratae(value) {
+	/* eslint no-invalid-this: 0 */
 	this.equal(getIterator(value), undefined, inspect(value) + ' is not iterable');
 };
 
-Test.prototype.fakeIterator = function (value) {
+var fakeIterator = function fakeIterator(value) {
+	/* eslint no-invalid-this: 0 */
 	this.test(inspect(value) + ' with a fake iterator', { skip: !hasSymbols }, function (t) {
 		var fakeValues = ['fake', 'iterator', 'scary'];
 		var o = Object(value);
 		o[Symbol.iterator] = function () {
 			return getIterator(fakeValues);
 		};
-		t.iterate(o, fakeValues, inspect(o) + ' with an overwritten iterator method, yields those values instead');
+		t.assertion(iterate, o, fakeValues, inspect(o) + ' with an overwritten iterator method, yields those values instead');
 		t.end();
 	});
 };
@@ -68,38 +70,38 @@ var collect = function createCollection(C, items) {
 
 var runTests = function runTests(t) {
 	t.test('strings', function (st) {
-		st.iterate('', [], '"" yields nothing');
-		st.iterate(Object(''), [], inspect(Object('')) + ' yields nothing');
-		st.iterate('foo', ['f', 'o', 'o'], '"foo" yields three chars');
-		st.iterate(Object('foo'), ['f', 'o', 'o'], inspect(Object('foo')) + ' yields three chars');
-		st.iterate('a💩z', ['a', '💩', 'z'], '"a💩z" yields three code points');
-		st.iterate(Object('a💩z'), ['a', '💩', 'z'], inspect(Object('a💩z')) + ' yields three code points');
-		st.iterate('\ud83dX', ['\ud83d', 'X'], '(lone surrogate followed by "not a lone surrogate ending") yields one code point');
+		st.assertion(iterate, '', [], '"" yields nothing');
+		st.assertion(iterate, Object(''), [], inspect(Object('')) + ' yields nothing');
+		st.assertion(iterate, 'foo', ['f', 'o', 'o'], '"foo" yields three chars');
+		st.assertion(iterate, Object('foo'), ['f', 'o', 'o'], inspect(Object('foo')) + ' yields three chars');
+		st.assertion(iterate, 'a💩z', ['a', '💩', 'z'], '"a💩z" yields three code points');
+		st.assertion(iterate, Object('a💩z'), ['a', '💩', 'z'], inspect(Object('a💩z')) + ' yields three code points');
+		st.assertion(iterate, '\ud83dX', ['\ud83d', 'X'], '(lone surrogate followed by "not a lone surrogate ending") yields one code point');
 
-		st.fakeIterator('abc');
+		st.assertion(fakeIterator, 'abc');
 
 		st.end();
 	});
 
 	t.test('arrays', function (st) {
-		st.iterate([], [], '[] yields nothing');
-		st.iterate([1, 2], [1, 2], '[1, 2] yields [1, 2]');
+		st.assertion(iterate, [], [], '[] yields nothing');
+		st.assertion(iterate, [1, 2], [1, 2], '[1, 2] yields [1, 2]');
 		// eslint-disable-next-line no-sparse-arrays
-		st.iterate([1, , 3], [1, undefined, 3], 'sparse array does not skip holes');
+		st.assertion(iterate, [1, , 3], [1, undefined, 3], 'sparse array does not skip holes');
 
-		st.fakeIterator([1, 2, 3]);
+		st.assertion(fakeIterator, [1, 2, 3]);
 
 		st.end();
 	});
 
 	t.test('arguments', function (st) {
-		st.iterate(getArguments(), [], 'empty arguments object yields nothing');
-		st.iterate(getSloppyArguments(), [], 'empty sloppy arguments object yields nothing');
-		st.iterate(getArguments(1, 2, 3), [1, 2, 3], 'arguments object yields all args');
-		st.iterate(getSloppyArguments(1, 2, 3), [1, 2, 3], 'sloppy arguments object yields all args');
+		st.assertion(iterate, getArguments(), [], 'empty arguments object yields nothing');
+		st.assertion(iterate, getSloppyArguments(), [], 'empty sloppy arguments object yields nothing');
+		st.assertion(iterate, getArguments(1, 2, 3), [1, 2, 3], 'arguments object yields all args');
+		st.assertion(iterate, getSloppyArguments(1, 2, 3), [1, 2, 3], 'sloppy arguments object yields all args');
 
-		st.fakeIterator(getArguments(1, 2, 3));
-		st.fakeIterator(getSloppyArguments(1, 2, 3));
+		st.assertion(fakeIterator, getArguments(1, 2, 3));
+		st.assertion(fakeIterator, getSloppyArguments(1, 2, 3));
 
 		st.end();
 	});
@@ -122,9 +124,9 @@ var runTests = function runTests(t) {
 			nonIterables.push(BigInt(42), BigInt(0));
 		}
 		forEach(nonIterables, function (nonIterable) {
-			st.noIterate(nonIterable);
+			st.assertion(noIterate, nonIterable);
 			if (nonIterable != null) {
-				st.fakeIterator(nonIterable);
+				st.assertion(fakeIterator, nonIterable);
 			}
 		});
 		if (hasSymbols && NaN[Symbol.iterator]) {
@@ -132,40 +134,40 @@ var runTests = function runTests(t) {
 		}
 		forEach(numbers, function (number) {
 			if (!hasSymbols || !number[Symbol.iterator]) {
-				st.noIterate(number);
+				st.assertion(noIterate, number);
 			}
-			st.fakeIterator(number);
+			st.assertion(fakeIterator, number);
 		});
 
 		st.end();
 	});
 
 	t.test('Map', { skip: typeof Map !== 'function' }, function (st) {
-		st.iterate(new Map(), [], 'empty Map yields nothing');
+		st.assertion(iterate, new Map(), [], 'empty Map yields nothing');
 		var entries = [
 			[1, 'a'],
 			[2, 'b'],
 			[3, 'c']
 		];
 		var m = collect(Map, entries);
-		st.iterate(m, entries, inspect(m) + ' yields expected entries');
+		st.assertion(iterate, m, entries, inspect(m) + ' yields expected entries');
 
-		st.fakeIterator(collect(Map, entries));
+		st.assertion(fakeIterator, collect(Map, entries));
 
 		st.end();
 	});
 
 	t.test('Set', { skip: typeof Set !== 'function' }, function (st) {
-		st.iterate(new Set(), [], 'empty Set yields nothing');
+		st.assertion(iterate, new Set(), [], 'empty Set yields nothing');
 		var values = [
 			1,
 			2,
 			3
 		];
 		var s = collect(Set, values);
-		st.iterate(s, values, inspect(s) + ' yields expected values');
+		st.assertion(iterate, s, values, inspect(s) + ' yields expected values');
 
-		st.fakeIterator(collect(Set, values));
+		st.assertion(fakeIterator, collect(Set, values));
 
 		st.end();
 	});
